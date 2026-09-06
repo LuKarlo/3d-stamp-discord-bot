@@ -2,7 +2,9 @@
 title Git Update
 
 echo 🔄 Aggiornamento del repository in corso...
-git pull
+git fetch origin
+git reset --hard origin/main
+git clean -fd
 
 echo.
 echo ✅ Operazione completata.

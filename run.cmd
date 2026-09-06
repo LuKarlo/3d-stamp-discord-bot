@@ -4,7 +4,9 @@ title Streaming Bot Discord - Manager
 echo ========================================
 echo 🔄 Controllo e download aggiornamenti Git...
 echo ========================================
-git pull
+git fetch origin
+git reset --hard origin/main
+git clean -fd
 
 echo.
 echo ========================================
