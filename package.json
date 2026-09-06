@@ -1,0 +1,28 @@
+{
+  "name": "stream-video-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that streams video from a URL to a voice channel.",
+  "homepage": "https://github.com/LuKarlo/3d-stamp-discord-bot#readme",
+  "bugs": {
+    "url": "https://github.com/LuKarlo/3d-stamp-discord-bot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuKarlo/3d-stamp-discord-bot.git"
+  },
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "cloudflared": "^0.7.3",
+    "discord.js": "^14.27.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-ws": "^5.0.2",
+    "localtunnel": "^2.0.2",
+    "rtsp-relay": "^1.9.0"
+  }
+}

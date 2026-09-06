@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bambu Lab Live Stream</title>
+  <style>
+    body { margin: 0; background-color: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    canvas { width: 100%; max-width: 1280px; height: auto; }
+  </style>
+  <script src="https://jsmpeg.com/jsmpeg.min.js"></script>
+</head>
+<body>
+  <canvas id="video-canvas"></canvas>
+
+  <script type="module">
+    import { DiscordSDK } from "https://cdn.jsdelivr.net/npm/@discord/embedded-app-sdk@1.1.0/+esm";
+
+    // Inizializzazione SDK Discord Client-Side
+    const sdk = new DiscordSDK(window.DISCORD_CLIENT_ID);
+    async function init() {
+      await sdk.ready();
+      console.log('Discord SDK Inizializzato per:', sdk.user.username);
+    }
+    init().catch(console.error);
+
+    // Inizializzazione JSMpeg Player
+    const canvas = document.getElementById('video-canvas');
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}/api/stream`;
+
+    const player = new JSMpeg.Player(wsUrl, {
+      canvas: canvas,
+      autoplay: true,
+      audio: false,
+    });
+  </script>
+</body>
+</html>
