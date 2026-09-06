@@ -1,4 +1,14 @@
 require('dotenv').config();
+
+// 1. Gestione globale degli errori (va all'inizio per proteggere l'app fin dal primo secondo)
+process.on('uncaughtException', (err) => {
+  console.error('⚠️ Errore catturato nel processo:', err.message);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('⚠️ Promessa non gestita:', reason);
+});
+
 const { startServer } = require('./module/server');
 const { startTunnel } = require('./module/tunnel');
 const { startBot } = require('./module/bot');
