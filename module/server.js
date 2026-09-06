@@ -5,45 +5,20 @@ const { proxy } = require('rtsp-relay')(app);
 
 app.use(express.static('public'));
 
-// 1. Validazione delle variabili d'ambiente
-const accessCode = process.env.ACCESS_CODE_3D_STAMP;
-const ipAddress = process.env.IP_ADDRESS_3D_STAMP;
+const accessCode = process.env.ACCESS_CODE_3D_STAMP || '2174e2e0';
+const ipAddress = process.env.IP_ADDRESS_3D_STAMP || '192.168.1.207';
 
-if (!accessCode || !ipAddress) {
-  console.error('❌ ERRORE CRITICO: Controlla il file .env!');
-  console.error(`- ACCESS_CODE_3D_STAMP: ${accessCode ? 'OK' : 'MANCANTE'}`);
-  console.error(`- IP_ADDRESS_3D_STAMP: ${ipAddress ? 'OK' : 'MANCANTE'}`);
-}
+// URL RTSPS testato e funzionante
+const bambuUrl = `rtsps://bblp:${accessCode}@${ipAddress}:322/streaming/live/1`;
 
-// Per la porta 1989 usa solitamente "rtsp://", per la 322 usa "rtsps://"
-const bambuUrl = `rtsp://bblp:${accessCode}@${ipAddress}:1989/live`;
-
-console.log(`🎥 Configurato stream Bambu Lab su: ${bambuUrl}`);
-
-// 3. Endpoint di diagnosi (apribile dal browser)
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    printerIp: ipAddress || 'Non configurato',
-    hasAccessCode: !!accessCode,
-    streamUrl: maskedUrl,
-  });
-});
-
-// 4. WebSocket proxy con gestione log
 app.ws('/api/stream', (ws, req) => {
-  console.log('📡 [WebSocket] Nuovo client connesso all\'Activity!');
-  
-  ws.on('close', () => {
-    console.log('🔌 [WebSocket] Client disconnesso dall\'Activity.');
-  });
+  console.log('📡 [WebSocket] Client connesso all\'Activity Discord');
 
   proxy({
     url: bambuUrl,
     verbose: true,
     additionalFlags: [
-      '-rtsp_transport', 'tcp',
-      '-tls_verify', '0'
+      '-rtsp_transport', 'tcp'
     ],
   })(ws, req);
 });
@@ -51,7 +26,7 @@ app.ws('/api/stream', (ws, req) => {
 function startServer(port) {
   return new Promise((resolve) => {
     const server = app.listen(port, () => {
-      console.log(`[1/3] Server HTTP e WebSocket attivi su http://localhost:${port}`);
+      console.log(`[1/3] Server attivo su http://localhost:${port}`);
       resolve(server);
     });
   });
