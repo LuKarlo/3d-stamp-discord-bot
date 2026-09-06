@@ -18,9 +18,7 @@ if (!accessCode || !ipAddress) {
 // Per la porta 1989 usa solitamente "rtsp://", per la 322 usa "rtsps://"
 const bambuUrl = `rtsp://bblp:${accessCode}@${ipAddress}:1989/live`;
 
-// 2. Log dell'URL di connessione (con password mascherata per sicurezza)
-const maskedUrl = bambuUrl.replace(accessCode, '******');
-console.log(`🎥 Configurato stream Bambu Lab su: ${maskedUrl}`);
+console.log(`🎥 Configurato stream Bambu Lab su: ${bambuUrl}`);
 
 // 3. Endpoint di diagnosi (apribile dal browser)
 app.get('/api/health', (req, res) => {
