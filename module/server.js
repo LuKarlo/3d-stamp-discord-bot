@@ -11,7 +11,7 @@ const bambuUrl = `rtsps://bblp:${process.env.ACCESS_CODE_3D_STAMP}@${process.env
 
 app.ws('/api/stream', proxy({
   url: bambuUrl,
-  verbose: false,
+  verbose: true,
   transport: 'tcp',
 }));
 
